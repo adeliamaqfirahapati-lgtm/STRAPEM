@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>🎯 KUIS PEMROGRAMAN DASAR – NILAI RATA-RATA 🎯</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      padding: 20px;
+    }
+    .card {
+      background: white;
+      max-width: 700px;
+      margin: 20px auto;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    p {
+      margin: 8px 0;
+    }
+    label {
+      display: block;
+      margin-left: 10px;
+    }
+    button {
+      background: #007BFF;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .result {
+      text-align: center;
+    }
+    #wrong-list {
+      list-style: none;
+      padding: 0;
+      margin-top: 10px;
+    }
+    #wrong-list li {
+      background: #ffe5e5;
+      color: #b30000;
+      margin: 5px auto;
+      padding: 8px;
+      max-width: 400px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card" id="quiz-container">
+    <h1>🎯 KUIS PEMROGRAMAN DASAR – NILAI RATA-RATA 🎯</h1>
+    <hr>
+    <form id="quiz-form">
+      <!-- Soal 1 -->
+      <p><b>1. Sintaks yang benar untuk meminta pengguna memasukkan nilai adalah:</b></p>
+      <label><input type="radio" name="soal1" value="a" required> a. nilai = input('Masukkan nilai: ')</label>
+      <label><input type="radio" name="soal1" value="b"> b. input = nilai('Masukkan nilai: ')</label>
+      <label><input type="radio" name="soal1" value="c"> c. print('Masukkan nilai: ')</label>
+
+      <!-- Soal 2 -->
+      <p><b>2. Jika ingin menghitung rata-rata 3 nilai, operasi yang benar adalah:</b></p>
+      <label><input type="radio" name="soal2" value="a" required> a. rata2 = nilai1 + nilai2 + nilai3 / 3</label>
+      <label><input type="radio" name="soal2" value="b"> b. rata2 = (nilai1 + nilai2 + nilai3) / 3</label>
+      <label><input type="radio" name="soal2" value="c"> c. rata2 = nilai1 + nilai2 + nilai3 * 3</label>
+
+      <!-- Soal 3 -->
+      <p><b>3. Untuk menjumlahkan beberapa nilai menggunakan perulangan, digunakan perintah:</b></p>
+      <label><input type="radio" name="soal3" value="a" required> a. while nilai &lt; 3:</label>
+      <label><input type="radio" name="soal3" value="b"> b. for i in range(3):</label>
+      <label><input type="radio" name="soal3" value="c"> c. repeat 3 times:</label>
+
+      <!-- Soal 4 -->
+      <p><b>4. Jika pengguna memasukkan nilai melalui input(), maka tipe datanya adalah:</b></p>
+      <label><input type="radio" name="soal4" value="a" required> a. int</label>
+      <label><input type="radio" name="soal4" value="b"> b. float</label>
+      <label><input type="radio" name="soal4" value="c"> c. string</label>
+
+      <!-- Soal 5 -->
+      <p><b>5. Bagaimana cara mengonversi input ke angka agar bisa dihitung rata-ratanya?</b></p>
+      <label><input type="radio" name="soal5" value="a" required> a. nilai = str(input('Masukkan nilai: '))</label>
+      <label><input type="radio" name="soal5" value="b"> b. nilai = int(input('Masukkan nilai: '))</label>
+      <label><input type="radio" name="soal5" value="c"> c. nilai = print(input('Masukkan nilai: '))</label>
+
+      <div style="text-align:center; margin-top: 20px;">
+        <button type="submit">Kirim Jawaban</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="card result" id="result-container" style="display: none;">
+    <h1>Hasil Kuis</h1>
+    <p id="score-text"></p>
+    <p id="message"></p>
+    <ul id="wrong-list"></ul>
+    <button onclick="ulang()">🔁 Coba Lagi</button>
+  </div>
+
+  <script>
+    const kunciJawaban = {
+      soal1: "a",
+      soal2: "b",
+      soal3: "b",
+      soal4: "c",
+      soal5: "b"
+    };
+
+    const form = document.getElementById("quiz-form");
+    const quizContainer = document.getElementById("quiz-container");
+    const resultContainer = document.getElementById("result-container");
+    const scoreText = document.getElementById("score-text");
+    const message = document.getElementById("message");
+    const wrongList = document.getElementById("wrong-list");
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      let skor = 0;
+      let total = Object.keys(kunciJawaban).length;
+      wrongList.innerHTML = ""; // reset list salah
+
+      for (const soal in kunciJawaban) {
+        const jawabanUser = form[soal].value;
+        if (jawabanUser === kunciJawaban[soal]) {
+          skor++;
+        } else {
+          const nomor = soal.replace("soal", "");
+          const li = document.createElement("li");
+          li.textContent = `❌ Jawaban soal nomor ${nomor} salah (Jawaban benar: ${kunciJawaban[soal]})`;
+          wrongList.appendChild(li);
+        }
+      }
+
+      quizContainer.style.display = "none";
+      resultContainer.style.display = "block";
+
+      scoreText.textContent = `🎓 Skor Akhir Kamu: ${skor}/${total}`;
+
+      if (skor === total) {
+        message.textContent = "🌟 Luar biasa! Semua jawabanmu benar!";
+      } else if (skor >= 3) {
+        message.textContent = "👍 Bagus! Kamu sudah cukup paham, cek lagi jawaban yang salah ya👇";
+      } else {
+        message.textContent = "💪 Yuk pelajari lagi soal-soal yang salah di bawah ini:";
+      }
+    });
+
+    function ulang() {
+      resultContainer.style.display = "none";
+      quizContainer.style.display = "block";
+      form.reset();
+      wrongList.innerHTML = "";
+    }
+  </script>
+
+ <footer style="text-align: center; margin-top: 20px;">
+    <p>Created by Adelia Maqfira Hapati 24020500070 PTIK C |</p>
+      </footer>
+
+</body>
+</html>
